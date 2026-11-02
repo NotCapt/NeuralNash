@@ -2,6 +2,10 @@
 
 **Trust is a strategy. Betrayal is an art.**
 
+## [Play online →](https://double-agent-neuralnash.faaizhussain006.chatgpt.site)
+
+No installation needed. Open the link on the host laptop, create an operation, and have players scan its QR code. The online version works across different networks; everyone just needs internet access.
+
 A social-deduction game for a college event: everyone gets a partner, everyone makes a promise, and a few players secretly benefit when those promises fall apart.
 
 **6–16 players · one projector · one phone per player · about 15 minutes**

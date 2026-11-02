@@ -33,3 +33,11 @@ The projector host is **not privileged to read secrets** before RESULTS. Host au
 `tests/game.test.ts` checks allowlisted field names and hidden values before reveal, enabled/disabled awareness, export sealing and final visibility. `tests/socket.test.ts` starts a real HTTP + Socket.IO server and inspects the host/player messages sent on the wire, rejects a non-host action/export and a guessed token, recovers a seat with the same role/score/choice after a disconnect, and checks kicked tokens and token-free exports. The gateway's outgoing calls are limited to `state`, `removed`, and the ACK wrapper listed above.
 
 This application is scoped to a trusted local event, not a hardened public multi-tenant game service. In-memory state is not crash-persistent, localStorage bearer tokens must remain private, and unencrypted HTTP cannot protect against Wi-Fi traffic interception. TLS is required if that threat is relevant to deployment.
+
+## Hosted Sites transport
+
+The Sites deployment uses `/api/game` over HTTPS instead of Socket.IO. Its `create`, `join`, `resume`, `sync`, control, move, ballot and export responses obey the same per-seat `Game.view()` allowlist. Tokens travel in request bodies, never URLs; internal room records and token maps are never returned. Host-only actions are checked on every request. D1 version-checked updates retry conflicts, preventing lost updates when several players act at once. The hosted gateway rejects cross-origin mutation requests and oversized bodies.
+
+Clients poll once per second. Time remains authoritative on the server: elapsed deadlines are replayed on the next request; no sleeping browser can extend a decision window. Rooms persist in D1 across Worker instances. Hosted saved-seat tabs share the same seat; the local Socket.IO deployment instead disconnects the prior socket. Online presence is approximate (15-second heartbeat threshold). The local server’s per-socket rate limit and 12-hour in-memory cleanup do not apply to the hosted gateway.
+
+`tests/worker.test.ts` exercises the hosted handler against SQLite, including simultaneous moves, seat recovery, host authorization, secret-free host views, and token-free results exports.

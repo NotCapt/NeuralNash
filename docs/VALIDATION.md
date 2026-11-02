@@ -42,3 +42,9 @@ Screenshots: [desktop landing](screenshots/desktop.jpg), [host lobby](screenshot
 ## Remaining event-specific check
 
 The browser checks used two tabs and phone-sized rendering, not a physical phone on the event Wi-Fi. Before the event, scan the QR from a real phone to confirm the chosen adapter, firewall access and absence of Wi-Fi client isolation. Reconnection across an actual phone sleep/wake cycle and projected readability should be rehearsed on the event devices. Server restart recovery is intentionally unsupported because rooms are in memory.
+
+## Sites adaptation
+
+The additional Worker gateway test brings the suite to **34 passing tests**. TypeScript and the Sites bundle build pass. The same game engine runs behind either the local Socket.IO gateway or the D1-backed hosted HTTPS gateway. Hosted tests cover concurrent moves, reconstructed-request seat recovery and information hiding.
+
+The public deployment passed a five-round, 12-player smoke test using its HTTPS API: non-host control rejection, saved-choice recovery, secret-free host payloads, final history and token-free JSON export. The browser also verified room creation, public QR generation and joining from a second tab. The reproducible check is `node scripts/smoke-hosted.mjs https://double-agent-neuralnash.faaizhussain006.chatgpt.site`; it creates its own test room.
