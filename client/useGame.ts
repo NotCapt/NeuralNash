@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { io, type Socket } from "socket.io-client";
+import { io } from "socket.io-client";
+import { HostedTransport } from "./hostedTransport";
 import type { Reply, RoomView, Session } from "../shared/types";
 
 function storageKey(kind: string, code: string) {
@@ -25,7 +26,7 @@ export function useGame() {
   const [connected, setConnected] = useState(false),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
-  const socket = useRef<Socket | null>(null),
+  const socket = useRef<ReturnType<typeof io> | HostedTransport | null>(null),
     sessionRef = useRef(session);
   const offset = useRef(0);
   function save(s: Session) {
@@ -39,7 +40,10 @@ export function useGame() {
     );
   }
   useEffect(() => {
-    const s = io({ autoConnect: false });
+    const s =
+      import.meta.env.MODE === "sites"
+        ? new HostedTransport()
+        : io({ autoConnect: false });
     socket.current = s;
     s.on("state", (state: RoomView) => {
       offset.current = state.serverNow - Date.now();

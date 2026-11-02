@@ -7,6 +7,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "build:sites": "npm run typecheck && node scripts/build-sites.mjs",
     "dev": "concurrently -k -n SERVER,CLIENT -c cyan,green \"tsx watch server/index.ts\" \"vite --host 0.0.0.0\"",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
@@ -33,6 +34,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
+    "esbuild": "^0.28.2",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.1.0",
     "tsx": "^4.19.0",

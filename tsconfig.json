@@ -18,6 +18,7 @@
     "shared",
     "scripts",
     "tests",
+    "worker",
     "vite.config.ts"
   ]
 }
